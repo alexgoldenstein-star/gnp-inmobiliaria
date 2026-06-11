@@ -13,7 +13,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <span className="font-display font-bold text-base uppercase tracking-wide">Negocios Inmobiliarios</span>
             </div>
             <p className="text-[13px] text-white/40 leading-relaxed max-w-[260px]">
-              Desarrollos propios y los mejores proyectos del mercado. Acompañamos cada etapa, de la búsqueda al cierre.
+              Las mejores propiedades del mercado en un solo lugar. Acompañamos cada etapa, de la búsqueda al cierre.
             </p>
           </div>
           <div>
@@ -22,14 +22,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <li><a href="/propiedades?operacion=venta" className="hover:text-white transition-colors">Venta</a></li>
               <li><a href="/propiedades?operacion=alquiler" className="hover:text-white transition-colors">Alquiler</a></li>
               <li><a href="/propiedades?operacion=pozo" className="hover:text-white transition-colors">En pozo</a></li>
-              <li><a href="/propiedades" className="hover:text-white transition-colors">Todas</a></li>
+              <li><a href="/lotes" className="hover:text-white transition-colors">Lotes</a></li>
             </ul>
           </div>
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-widest text-white/40 mb-4">Empresa</div>
+            <div className="text-[11px] font-semibold uppercase tracking-widest text-white/40 mb-4">La red</div>
             <ul className="space-y-3 text-[13px] text-white/60">
               <li><a href="/#nosotros" className="hover:text-white transition-colors">Nosotros</a></li>
-              <li><a href="/marketplace" className="hover:text-white transition-colors">Publicá tu inmobiliaria</a></li>
+              <li><a href="/marketplace" className="hover:text-white transition-colors">Sumá tu inmobiliaria</a></li>
               <li><a href="/#contacto" className="hover:text-white transition-colors">Contacto</a></li>
             </ul>
           </div>
@@ -37,7 +37,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="text-[11px] font-semibold uppercase tracking-widest text-white/40 mb-4">Contacto</div>
             <ul className="space-y-3 text-[13px] text-white/60">
               <li><a href="https://wa.me/5491112345678" className="hover:text-white transition-colors">WhatsApp</a></li>
-              <li><a href="mailto:info@gnpinmobiliaria.com.ar" className="hover:text-white transition-colors">Email</a></li>
+              <li><a href="mailto:info@gnpinmobiliaria.com.ar" className="hover:text-white transition-colors">info@gnpinmobiliaria.com.ar</a></li>
               <li><a href="https://instagram.com" className="hover:text-white transition-colors">Instagram</a></li>
             </ul>
           </div>

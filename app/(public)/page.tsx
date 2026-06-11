@@ -173,8 +173,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── PROYECTOS EN POZO ────────────────────────────────── */}
-      <section className="relative py-24 overflow-hidden" id="pozo">
+      {/* ── PROYECTOS EN POZO — solo si hay proyectos ──────── */}
+      {proyectosPozo.length > 0 && <section className="relative py-24 overflow-hidden" id="pozo">
         {/* Fondo imagen AGF interior */}
         <div className="absolute inset-0">
           <img src={AGF_IMGS.interior} alt="Proyectos en pozo" className="w-full h-full object-cover" />
@@ -233,7 +233,7 @@ export default async function HomePage() {
             </div>
           )}
         </div>
-      </section>
+      </section>}
 
       {/* ── NOSOTROS ─────────────────────────────────────────── */}
       <section className="px-6 md:px-12 py-24 grid grid-cols-1 md:grid-cols-2 gap-16 items-center" id="nosotros">
