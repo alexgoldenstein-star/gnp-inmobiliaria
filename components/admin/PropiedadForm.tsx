@@ -1,7 +1,8 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Save, Loader2, Upload, X, Star, GripVertical, Trash2 } from 'lucide-react'
+import { Save, Loader2 } from 'lucide-react'
+import FotosUploader from '@/components/admin/FotosUploader'
 import type { Propiedad } from '@/types'
 
 const TIPOS = ['departamento','casa','ph','local','oficina','terreno','cochera','galpon','emprendimiento']
@@ -23,10 +24,8 @@ interface Props {
 
 export default function PropiedadForm({ propiedad, mode }: Props) {
   const router = useRouter()
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [loading, setLoading] = useState(false)
-  const [uploadingFotos, setUploadingFotos] = useState(false)
   const [fotos, setFotos] = useState<string[]>(propiedad?.fotos ?? [])
   const [fotoPrincipal, setFotoPrincipal] = useState(propiedad?.foto_principal ?? '')
   const [amenities, setAmenities] = useState<string[]>(propiedad?.amenities ?? [])
@@ -76,32 +75,6 @@ export default function PropiedadForm({ propiedad, mode }: Props) {
   const set = (k: string, v: any) => setForm(f => ({ ...f, [k]: v }))
   const toggleAmenity = (a: string) => setAmenities(p => p.includes(a) ? p.filter(x => x !== a) : [...p, a])
 
-  const handleFotos = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? [])
-    if (!files.length) return
-    setUploadingFotos(true)
-    try {
-      const urls: string[] = []
-      for (const file of files) {
-        const fd = new FormData()
-        fd.append('file', file)
-        const res = await fetch('/api/upload', { method: 'POST', body: fd })
-        const data = await res.json()
-        if (data.url) urls.push(data.url)
-      }
-      const nuevas = [...fotos, ...urls]
-      setFotos(nuevas)
-      if (!fotoPrincipal && nuevas.length > 0) setFotoPrincipal(nuevas[0])
-    } finally {
-      setUploadingFotos(false)
-      if (fileInputRef.current) fileInputRef.current.value = ''
-    }
-  }
-
-  const eliminarFoto = (url: string) => {
-    setFotos(f => f.filter(x => x !== url))
-    if (fotoPrincipal === url) setFotoPrincipal(fotos.find(x => x !== url) ?? '')
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -266,64 +239,17 @@ export default function PropiedadForm({ propiedad, mode }: Props) {
       {/* FOTOS */}
       <div className={section}>
         <h2 className={sectionTitle}>Fotos</h2>
-
-        {/* Upload area */}
-        <div
-          className="border-2 border-dashed border-[#E2E0DC] rounded-xl p-8 text-center cursor-pointer hover:border-[#D85A30] transition-colors mb-5"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          {uploadingFotos ? (
-            <div className="flex items-center justify-center gap-2 text-[#555]">
-              <Loader2 size={20} className="animate-spin text-[#D85A30]" />
-              <span className="text-[14px]">Subiendo fotos...</span>
-            </div>
-          ) : (
-            <>
-              <Upload size={28} className="mx-auto mb-2 text-[#D85A30]" />
-              <p className="text-[14px] font-medium text-[#222]">Hacé clic para subir fotos</p>
-              <p className="text-[12px] text-[#888] mt-1">JPG, PNG, WEBP — múltiples a la vez</p>
-            </>
-          )}
-          <input ref={fileInputRef} type="file" multiple accept="image/*" className="hidden" onChange={handleFotos} />
-        </div>
-
-        {/* Grid de fotos */}
-        {fotos.length > 0 && (
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-            {fotos.map((url, i) => (
-              <div key={url} className="relative group aspect-square rounded-lg overflow-hidden border-2 transition-colors"
-                style={{ borderColor: url === fotoPrincipal ? '#D85A30' : '#E2E0DC' }}>
-                <img src={url} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
-
-                {/* Principal badge */}
-                {url === fotoPrincipal && (
-                  <div className="absolute top-1.5 left-1.5 bg-[#D85A30] text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <Star size={8} fill="white" /> Principal
-                  </div>
-                )}
-
-                {/* Actions on hover */}
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  {url !== fotoPrincipal && (
-                    <button type="button" onClick={() => setFotoPrincipal(url)}
-                      title="Marcar como principal"
-                      className="bg-[#D85A30] text-white text-[11px] font-semibold px-2.5 py-1.5 rounded flex items-center gap-1">
-                      <Star size={10} /> Principal
-                    </button>
-                  )}
-                  <button type="button" onClick={() => eliminarFoto(url)}
-                    className="bg-red-500 text-white p-1.5 rounded">
-                    <Trash2 size={13} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {fotos.length === 0 && <p className="text-[13px] text-[#888]">Sin fotos aún. Subí imágenes arriba.</p>}
+        <FotosUploader
+          fotos={fotos}
+          fotoPrincipal={fotoPrincipal}
+          onChange={(nuevasFotos, nuevaPrincipal) => {
+            setFotos(nuevasFotos)
+            setFotoPrincipal(nuevaPrincipal)
+          }}
+        />
       </div>
 
-      {/* MULTIMEDIA */}
+            {/* MULTIMEDIA */}
       <div className={section}>
         <h2 className={sectionTitle}>Multimedia adicional</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -447,7 +373,7 @@ export default function PropiedadForm({ propiedad, mode }: Props) {
 
       {/* BOTONES */}
       <div className="flex gap-3 pb-10">
-        <button type="submit" disabled={loading || uploadingFotos}
+        <button type="submit" disabled={loading}
           className="flex items-center gap-2 bg-[#D85A30] hover:bg-[#B84A22] text-white font-semibold text-[15px] px-8 py-3.5 rounded-md transition-colors disabled:opacity-60">
           {loading ? <><Loader2 size={16} className="animate-spin" /> Guardando...</> : <><Save size={16} /> {mode === 'nueva' ? 'Crear propiedad' : 'Guardar cambios'}</>}
         </button>

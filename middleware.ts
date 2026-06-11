@@ -1,18 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const SESSION_COOKIE = 'gnp_admin_session'
-const SESSION_VALUE = process.env.ADMIN_SESSION_SECRET ?? 'gnp-secret-2025'
+const COOKIE = 'gnp_session'
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // Protect all /admin routes except /login
-  const isAdminRoute = pathname.startsWith('/admin')
-  const isLoginPage = pathname === '/login'
-
-  if (isAdminRoute) {
-    const session = req.cookies.get(SESSION_COOKIE)?.value
-    if (session !== SESSION_VALUE) {
+  if (pathname.startsWith('/admin')) {
+    const session = req.cookies.get(COOKIE)?.value
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', req.url))
+    }
+    try {
+      const user = JSON.parse(session)
+      // Vendedor solo puede acceder a sus propiedades
+      if (user.rol === 'vendedor' && pathname.startsWith('/admin/leads')) {
+        return NextResponse.redirect(new URL('/admin/propiedades', req.url))
+      }
+      // Config solo para admin
+      if (user.rol !== 'admin' && pathname.startsWith('/admin/configuracion')) {
+        return NextResponse.redirect(new URL('/admin', req.url))
+      }
+    } catch {
       return NextResponse.redirect(new URL('/login', req.url))
     }
   }
