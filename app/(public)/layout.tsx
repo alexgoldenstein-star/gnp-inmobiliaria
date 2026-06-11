@@ -29,6 +29,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="text-[11px] font-semibold uppercase tracking-widest text-white/40 mb-4">Empresa</div>
             <ul className="space-y-3 text-[13px] text-white/60">
               <li><a href="/#nosotros" className="hover:text-white transition-colors">Nosotros</a></li>
+              <li><a href="/marketplace" className="hover:text-white transition-colors">Publicá tu inmobiliaria</a></li>
               <li><a href="/#contacto" className="hover:text-white transition-colors">Contacto</a></li>
             </ul>
           </div>

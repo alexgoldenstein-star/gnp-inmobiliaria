@@ -10,6 +10,7 @@ const LINKS = [
   { href: '/propiedades?operacion=alquiler', label: 'Alquiler' },
   { href: '/propiedades?operacion=pozo', label: 'En pozo' },
   { href: '/#nosotros', label: 'Nosotros' },
+  { href: '/marketplace', label: 'Publicá tu propiedad' },
 ]
 
 export default function Navbar() {
