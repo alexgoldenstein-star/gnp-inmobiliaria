@@ -2,6 +2,15 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+
+const LINKS = [
+  { href: '/propiedades', label: 'Propiedades' },
+  { href: '/propiedades?operacion=venta', label: 'Venta' },
+  { href: '/propiedades?operacion=alquiler', label: 'Alquiler' },
+  { href: '/propiedades?operacion=pozo', label: 'En pozo' },
+  { href: '/#nosotros', label: 'Nosotros' },
+]
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -17,31 +26,35 @@ export default function Navbar() {
         </span>
       </Link>
 
-      {/* Desktop links */}
-      <div className="hidden md:flex items-center gap-8">
-        <Link href="/propiedades" className="text-[13px] font-medium text-[#555] hover:text-[#111] transition-colors">Propiedades</Link>
-        <Link href="/propiedades?operacion=venta" className="text-[13px] font-medium text-[#555] hover:text-[#111] transition-colors">Venta</Link>
-        <Link href="/propiedades?operacion=alquiler" className="text-[13px] font-medium text-[#555] hover:text-[#111] transition-colors">Alquiler</Link>
-        <Link href="/propiedades?operacion=pozo" className="text-[13px] font-medium text-[#555] hover:text-[#111] transition-colors">En pozo</Link>
-        <Link href="/#nosotros" className="text-[13px] font-medium text-[#555] hover:text-[#111] transition-colors">Nosotros</Link>
-        <Link href="/#contacto" className="bg-[#D85A30] text-white text-[13px] font-semibold px-5 py-2.5 rounded-md hover:bg-[#B84A22] transition-colors">
+      <div className="hidden md:flex items-center gap-6">
+        {LINKS.map(l => (
+          <Link key={l.href} href={l.href}
+            className="text-[13px] font-medium text-[#555] hover:text-[#111] transition-colors">
+            {l.label}
+          </Link>
+        ))}
+        <Link href="/#contacto"
+          className="bg-[#D85A30] text-white text-[13px] font-semibold px-5 py-2.5 rounded-md hover:bg-[#B84A22] transition-colors">
           Contacto
         </Link>
       </div>
 
-      {/* Mobile menu toggle */}
       <button className="md:hidden p-2" onClick={() => setOpen(!open)}>
         {open ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Mobile menu */}
       {open && (
-        <div className="absolute top-[68px] left-0 right-0 bg-white border-b border-[#E2E0DC] px-6 py-4 flex flex-col gap-4 md:hidden">
-          <Link href="/propiedades" className="text-[14px] font-medium" onClick={() => setOpen(false)}>Propiedades</Link>
-          <Link href="/propiedades?operacion=venta" className="text-[14px] font-medium" onClick={() => setOpen(false)}>Venta</Link>
-          <Link href="/propiedades?operacion=alquiler" className="text-[14px] font-medium" onClick={() => setOpen(false)}>Alquiler</Link>
-          <Link href="/propiedades?operacion=pozo" className="text-[14px] font-medium" onClick={() => setOpen(false)}>En pozo</Link>
-          <Link href="/#contacto" className="bg-[#D85A30] text-white text-[14px] font-semibold px-4 py-2.5 rounded-md text-center" onClick={() => setOpen(false)}>Contacto</Link>
+        <div className="absolute top-[68px] left-0 right-0 bg-white border-b border-[#E2E0DC] px-6 py-4 flex flex-col gap-3 md:hidden shadow-lg">
+          {LINKS.map(l => (
+            <Link key={l.href} href={l.href} className="text-[14px] font-medium text-[#333]" onClick={() => setOpen(false)}>
+              {l.label}
+            </Link>
+          ))}
+          <Link href="/#contacto"
+            className="bg-[#D85A30] text-white text-[14px] font-semibold px-4 py-2.5 rounded-md text-center"
+            onClick={() => setOpen(false)}>
+            Contacto
+          </Link>
         </div>
       )}
     </nav>
