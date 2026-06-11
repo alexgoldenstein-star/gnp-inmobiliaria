@@ -9,6 +9,8 @@ const LINKS = [
   { href: '/propiedades?operacion=alquiler', label: 'Alquiler' },
   { href: '/propiedades?operacion=pozo', label: 'En pozo' },
   { href: '/lotes', label: 'Lotes' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/noticias', label: 'Noticias' },
   { href: '/#nosotros', label: 'Nosotros' },
 ]
 

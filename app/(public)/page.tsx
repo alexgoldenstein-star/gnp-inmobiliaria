@@ -25,9 +25,12 @@ const TIPOS = [
 ]
 
 const TESTIMONIOS = [
-  { texto: 'Excelente atención y propiedades de primera calidad. Encontramos el departamento ideal en tiempo récord.', autor: 'Ernesto O.', ciudad: 'Buenos Aires' },
-  { texto: 'Hice mi primera inversión inmobiliaria con total confianza. El proceso fue fácil y el resultado, perfecto.', autor: 'Alejandro A.', ciudad: 'CABA' },
-  { texto: 'Un verdadero socio estratégico. Su visión y atención a los detalles hicieron toda la diferencia.', autor: 'Daniel S.', ciudad: 'Buenos Aires' },
+  { texto: 'Excelente atención en todo el proceso. Nos ayudaron a encontrar el departamento ideal en Palermo en menos de dos semanas.', autor: 'Martín R.', ciudad: 'Buenos Aires' },
+  { texto: 'Hice mi primera inversión inmobiliaria con total confianza. La asesoría fue clara y el proceso, transparente de principio a fin.', autor: 'Alejandro A.', ciudad: 'CABA' },
+  { texto: 'Vendimos nuestro PH en Villa Crespo al mejor precio del mercado. Conocen el barrio como nadie.', autor: 'Claudia M.', ciudad: 'Villa Crespo, CABA' },
+  { texto: 'Invertí en un proyecto en pozo y la rentabilidad superó mis expectativas. Muy profesionales.', autor: 'Pablo K.', ciudad: 'Buenos Aires' },
+  { texto: 'Somos una inmobiliaria del interior y la integración con G&P nos abrió un mercado completamente nuevo en CABA.', autor: 'Inmobiliaria Del Sol', ciudad: 'Córdoba' },
+  { texto: 'El equipo de G&P nos acompañó en cada paso, desde la tasación hasta la escritura. Recomiendo totalmente.', autor: 'Sandra F.', ciudad: 'Belgrano, CABA' },
 ]
 
 async function getProyectosPozo() {
@@ -296,7 +299,7 @@ export default async function HomePage() {
             Lo que dicen<br />nuestros clientes
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {TESTIMONIOS.map((t, i) => (
             <div key={i} className="bg-white rounded-2xl p-7 border border-[#E2E0DC] shadow-sm">
               <div className="flex gap-1 mb-4">

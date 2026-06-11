@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { BarChart3, Building2, Users, Plus, Settings, Home, LogOut, UserCog, Store } from 'lucide-react'
+import { BarChart3, Building2, Users, Plus, Settings, Home, LogOut, UserCog, Store, Newspaper, Layout, Trophy } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const NAV = [
@@ -11,6 +11,7 @@ const NAV = [
   { href: '/admin/nueva',         icon: Plus,       label: 'Nueva propiedad', roles: ['admin','empleado','vendedor'] },
   { href: '/admin/usuarios',      icon: UserCog,    label: 'Usuarios',        roles: ['admin'] },
   { href: '/admin/marketplace',    icon: Store,      label: 'Marketplace',     roles: ['admin'] },
+  { href: '/admin/contenido',      icon: Layout,     label: 'Editor landing',  roles: ['admin'] },
   { href: '/admin/configuracion', icon: Settings,   label: 'Configuración',   roles: ['admin'] },
 ]
 
