@@ -315,6 +315,74 @@ export default async function HomePage() {
         </div>
       </section>
 
+
+      {/* ── SERVICIOS / A QUIÉN AYUDAMOS ─────────────────── */}
+      <section className="px-6 md:px-12 py-20 bg-white">
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <div className="w-5 h-0.5 bg-[#D85A30]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[2px] text-[#D85A30]">¿En qué te ayudamos?</span>
+            <div className="w-5 h-0.5 bg-[#D85A30]" />
+          </div>
+          <h2 className="font-display font-black uppercase text-[clamp(34px,4vw,52px)] leading-[0.93] tracking-tight">
+            Trabajamos con<br />todos los perfiles
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+          {[
+            {
+              icon: '🌿',
+              titulo: 'Buscamos terrenos',
+              desc: 'Trabajamos con desarrolladores que necesitan tierra. Si tenés un terreno o conocés una oportunidad, hablemos.',
+              cta: 'Tengo un terreno',
+              href: '/lotes',
+              color: 'border-green-200 hover:border-green-400',
+              badge: 'Para propietarios',
+            },
+            {
+              icon: '🤝',
+              titulo: 'Inmobiliarias de la red',
+              desc: 'Sumamos inmobiliarias de todo el país para trabajar en conjunto. Tu cartera más nuestra red.',
+              cta: 'Quiero sumarme',
+              href: '/marketplace',
+              color: 'border-purple-200 hover:border-purple-400',
+              badge: 'Para inmobiliarias',
+            },
+            {
+              icon: '🏠',
+              titulo: 'Querés vender tu propiedad',
+              desc: 'Te ayudamos a tasar, publicar y cerrar la venta al mejor precio del mercado con acompañamiento real.',
+              cta: 'Quiero vender',
+              href: '/#contacto',
+              color: 'border-[#D85A30]/30 hover:border-[#D85A30]',
+              badge: 'Para propietarios',
+            },
+            {
+              icon: '🔍',
+              titulo: 'Buscás para comprar',
+              desc: 'Accedés al portfolio completo y a propiedades exclusivas que no están en los portales públicos.',
+              cta: 'Buscar propiedades',
+              href: '/propiedades',
+              color: 'border-blue-200 hover:border-blue-400',
+              badge: 'Para compradores',
+            },
+          ].map(({ icon, titulo, desc, cta, href, color, badge }) => (
+            <a key={titulo} href={href}
+              className={`block bg-white rounded-2xl border-2 p-6 transition-all hover:shadow-lg no-underline group ${color}`}>
+              <div className="text-3xl mb-4">{icon}</div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-[#888] mb-2">{badge}</div>
+              <h3 className="font-display font-black text-[20px] uppercase leading-tight mb-3 text-[#111] group-hover:text-[#D85A30] transition-colors">
+                {titulo}
+              </h3>
+              <p className="text-[13px] text-[#666] leading-relaxed mb-5">{desc}</p>
+              <div className="flex items-center gap-1.5 text-[13px] font-semibold text-[#D85A30]">
+                {cta} →
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
       {/* ── CONTACTO ─────────────────────────────────────────── */}
       <section className="relative py-24 overflow-hidden" id="contacto">
         <div className="absolute inset-0">

@@ -82,11 +82,14 @@ export default function LeadForm({ propiedadId, propiedadTitulo }: LeadFormProps
             className="border border-[#E2E0DC] rounded-md px-3.5 py-2.5 text-[14px] focus:outline-none focus:border-[#D85A30] transition-colors bg-white"
           >
             <option value="">Seleccioná una opción</option>
-            <option value="comprar">Comprar</option>
-            <option value="alquilar">Alquilar</option>
-            <option value="invertir">Invertir en pozo</option>
-            <option value="tasar">Vender / Tasar</option>
-            <option value="info_general">Información general</option>
+            <option value="comprar">Quiero comprar una propiedad</option>
+            <option value="alquilar">Quiero alquilar</option>
+            <option value="vender_propiedad">Quiero vender mi propiedad</option>
+            <option value="invertir">Quiero invertir en pozo</option>
+            <option value="terreno">Tengo / busco un terreno</option>
+            <option value="inmobiliaria_conjunta">Soy inmobiliaria y quiero trabajar en conjunto</option>
+            <option value="tasar">Quiero tasar mi propiedad</option>
+            <option value="info_general">Otra consulta</option>
           </select>
         </div>
       )}
