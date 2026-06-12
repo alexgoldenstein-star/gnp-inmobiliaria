@@ -1,5 +1,9 @@
 export const dynamic = 'force-dynamic'
+import { notFound } from 'next/navigation'
 import { ExternalLink, Calendar, Tag } from 'lucide-react'
+
+// Para activar: cambiar NOTICIAS_ACTIVAS a true desde /admin/configuracion
+const NOTICIAS_ACTIVAS = false
 
 async function getNoticias() {
   try {
@@ -19,6 +23,7 @@ const CAT_COLOR: Record<string, string> = {
 }
 
 export default async function NoticiasPage() {
+  if (!NOTICIAS_ACTIVAS) notFound()
   const noticias = await getNoticias()
   const principal = noticias[0]
   const resto = noticias.slice(1)
