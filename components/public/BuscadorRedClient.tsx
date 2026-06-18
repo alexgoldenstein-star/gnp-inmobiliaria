@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, MapPin, Building2, CheckCircle, ExternalLink } from 'lucide-react'
+import { Search, MapPin, Building2, CheckCircle } from 'lucide-react'
 import { formatPrecio } from '@/lib/propiedades'
 
 interface Inmobiliaria {
@@ -117,19 +117,11 @@ export default function BuscadorRedClient({ inmobiliarias, propiedades }: { inmo
                   </div>
                 )}
 
-                <div className="flex gap-2 pt-3 border-t border-[#F0EFED]">
-                  {i.telefono && (
-                    <a href={`https://wa.me/${i.telefono.replace(/\D/g,'')}`} target="_blank"
-                      className="flex-1 text-center text-[12px] font-medium bg-[#25D366] text-white py-2 rounded-lg hover:opacity-90 transition-opacity">
-                      WhatsApp
-                    </a>
-                  )}
-                  {i.sitio_web && (
-                    <a href={i.sitio_web} target="_blank"
-                      className="flex items-center gap-1 text-[12px] font-medium border border-[#E2E0DC] text-[#555] px-3 py-2 rounded-lg hover:border-[#111] transition-colors">
-                      <ExternalLink size={11}/> Web
-                    </a>
-                  )}
+                <div className="pt-3 border-t border-[#F0EFED]">
+                  <a href="/#contacto"
+                    className="w-full block text-center text-[12px] font-medium bg-[#D85A30] text-white py-2 rounded-lg hover:bg-[#B84A22] transition-colors">
+                    Consultar por G&P
+                  </a>
                 </div>
               </div>
             ))}
