@@ -5,6 +5,7 @@ import { getPropiedadesDestacadas } from '@/lib/propiedades'
 import PropertyCard from '@/components/public/PropertyCard'
 import LeadForm from '@/components/public/LeadForm'
 import { getSupabaseAdmin } from '@/lib/supabase'
+import { ZONAS_AGRUPADAS } from '@/lib/barrios'
 
 // Imágenes de AGF Desarrollos — usadas como fondos y referencias visuales
 const AGF_IMGS = {
@@ -112,12 +113,19 @@ export default async function HomePage() {
           {[
             { name: 'operacion', options: [['','Operación'],['venta','Venta'],['alquiler','Alquiler'],['pozo','En pozo']] },
             { name: 'tipo',      options: [['','Tipo'],['departamento','Depto'],['casa','Casa'],['ph','PH'],['local','Local'],['oficina','Oficina'],['galpon','Galpón'],['terreno','Terreno']] },
-            { name: 'barrio',    options: [['','Zona/Barrio'],['Palermo','Palermo'],['Recoleta','Recoleta'],['Belgrano','Belgrano'],['Caballito','Caballito'],['Villa Crespo','Villa Crespo'],['Almagro','Almagro'],['Núñez','Núñez'],['San Telmo','San Telmo'],['Puerto Madero','Puerto Madero']] },
           ].map(({ name, options }) => (
             <select key={name} name={name} className="flex-1 min-w-[130px] border-r border-[#E2E0DC] px-4 py-4 text-[14px] focus:outline-none cursor-pointer bg-white">
               {options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
             </select>
           ))}
+          <select name="barrio" className="flex-1 min-w-[130px] border-r border-[#E2E0DC] px-4 py-4 text-[14px] focus:outline-none cursor-pointer bg-white">
+            <option value="">Zona/Barrio</option>
+            {ZONAS_AGRUPADAS.map(({ grupo, zonas }) => (
+              <optgroup key={grupo} label={grupo}>
+                {zonas.map(b => <option key={b} value={b}>{b}</option>)}
+              </optgroup>
+            ))}
+          </select>
           <button type="submit" className="bg-[#D85A30] hover:bg-[#B84A22] text-white font-bold text-[14px] px-8 py-4 transition-colors whitespace-nowrap">
             Buscar
           </button>

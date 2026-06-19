@@ -4,10 +4,9 @@ import PropertyCard from '@/components/public/PropertyCard'
 import type { FiltrosPropiedades, Operacion, TipoPropiedad } from '@/types'
 import Link from 'next/link'
 import { SlidersHorizontal, X } from 'lucide-react'
+import { ZONAS_AGRUPADAS } from '@/lib/barrios'
 
 interface Props { searchParams: Promise<Record<string, string>> }
-
-const BARRIOS = ['Almagro','Balvanera','Belgrano','Caballito','Chacarita','Colegiales','Flores','Núñez','Palermo','Puerto Madero','Recoleta','Retiro','Saavedra','San Telmo','Villa Crespo','Villa del Parque','Villa Urquiza']
 
 export default async function PropiedadesPage({ searchParams }: Props) {
   const params = await searchParams
@@ -137,7 +136,11 @@ export default async function PropiedadesPage({ searchParams }: Props) {
                 <select name="barrio" defaultValue={params.barrio ?? ''}
                   className="w-full border border-[#E2E0DC] rounded-md px-3 py-2 text-[13px] focus:outline-none focus:border-[#D85A30] bg-white">
                   <option value="">Todos los barrios</option>
-                  {BARRIOS.map(b => <option key={b} value={b}>{b}</option>)}
+                  {ZONAS_AGRUPADAS.map(({ grupo, zonas }) => (
+                    <optgroup key={grupo} label={grupo}>
+                      {zonas.map(b => <option key={b} value={b}>{b}</option>)}
+                    </optgroup>
+                  ))}
                 </select>
               </div>
 

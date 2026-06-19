@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Save, Loader2 } from 'lucide-react'
 import FotosUploader from '@/components/admin/FotosUploader'
+import { ZONAS_AGRUPADAS } from '@/lib/barrios'
 import type { Propiedad } from '@/types'
 
 const TIPOS = ['departamento','casa','ph','local','oficina','terreno','cochera','galpon','emprendimiento']
@@ -14,7 +15,6 @@ const OPERACIONES = [
 ]
 const ESTADOS = ['disponible','reservada','vendida','alquilada','pausada']
 const ESTADOS_CONSERVACION = ['a_estrenar','excelente','muy_bueno','bueno','regular','a_reciclar']
-const BARRIOS_CABA = ['Almagro','Balvanera','Barracas','Belgrano','Boedo','Caballito','Chacarita','Coghlan','Colegiales','Constitución','Flores','Floresta','La Boca','La Paternal','Liniers','Mataderos','Monserrat','Monte Castro','Nueva Pompeya','Núñez','Palermo','Parque Avellaneda','Parque Chacabuco','Parque Chas','Parque Patricios','Puerto Madero','Recoleta','Retiro','Saavedra','San Cristóbal','San Nicolás','San Telmo','Vélez Sársfield','Versalles','Villa Crespo','Villa del Parque','Villa Devoto','Villa Gral. Mitre','Villa Lugano','Villa Luro','Villa Ortúzar','Villa Pueyrredón','Villa Real','Villa Riachuelo','Villa Santa Rita','Villa Soldati','Villa Urquiza']
 const AMENITIES_OPCIONES = ['pileta','sum','gimnasio','laundry','terraza','parrilla','seguridad 24hs','portero','bicicletero','cine','coworking','spa','jacuzzi','solarium','quincho']
 
 interface Props {
@@ -273,11 +273,12 @@ export default function PropiedadForm({ propiedad, mode }: Props) {
           <div>
             <label className={lbl}>Barrio *</label>
             <select required className={f} value={form.barrio} onChange={e => set('barrio', e.target.value)}>
-              <option value="">Seleccionar barrio</option>
-              {BARRIOS_CABA.map(b => <option key={b} value={b}>{b}</option>)}
-              <option value="GBA Norte">GBA Norte</option>
-              <option value="GBA Sur">GBA Sur</option>
-              <option value="GBA Oeste">GBA Oeste</option>
+              <option value="">Seleccionar barrio / zona</option>
+              {ZONAS_AGRUPADAS.map(({ grupo, zonas }) => (
+                <optgroup key={grupo} label={grupo}>
+                  {zonas.map(b => <option key={b} value={b}>{b}</option>)}
+                </optgroup>
+              ))}
             </select>
           </div>
           <div>
