@@ -1,7 +1,10 @@
 import { getPropiedadBySlug, formatPrecio } from '@/lib/propiedades'
 import { notFound } from 'next/navigation'
 import LeadForm from '@/components/public/LeadForm'
-import { MapPin, Home, Bath, Car, Square, Star, Phone } from 'lucide-react'
+import GaleriaLightbox from '@/components/public/GaleriaLightbox'
+import MapaPropiedad from '@/components/public/MapaPropiedad'
+import PlanoYTour from '@/components/public/PlanoYTour'
+import { MapPin, Home, Bath, Car, Square, Phone } from 'lucide-react'
 import type { Metadata } from 'next'
 
 interface Props { params: Promise<{ slug: string }> }
@@ -22,26 +25,12 @@ export default async function PropiedadPage({ params }: Props) {
   const prop = await getPropiedadBySlug(slug)
   if (!prop) notFound()
 
+  const waMsg = encodeURIComponent(`Hola! Me interesa esta propiedad: ${prop.titulo}`)
+
   return (
     <div className="min-h-screen">
-      {/* Galería */}
-      <div className="bg-[#F5F4F2] h-[50vh] md:h-[60vh] relative overflow-hidden">
-        {prop.foto_principal ? (
-          <img src={prop.foto_principal} alt={prop.titulo} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-[100px] opacity-10">🏢</div>
-        )}
-        {prop.fotos.length > 1 && (
-          <div className="absolute bottom-4 right-4 bg-black/60 text-white text-[13px] font-medium px-3 py-1.5 rounded-lg">
-            📸 {prop.fotos.length} fotos
-          </div>
-        )}
-        {prop.destacada && (
-          <div className="absolute top-4 left-4 bg-[#D85A30] text-white text-[12px] font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-            <Star size={12} fill="white" /> Destacada
-          </div>
-        )}
-      </div>
+      {/* Galería con lightbox */}
+      <GaleriaLightbox fotos={prop.fotos?.length ? prop.fotos : (prop.foto_principal ? [prop.foto_principal] : [])} titulo={prop.titulo} />
 
       {/* Contenido */}
       <div className="px-6 md:px-12 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
@@ -50,6 +39,9 @@ export default async function PropiedadPage({ params }: Props) {
           <div className="flex items-center gap-2 mb-2">
             <span className="bg-[#111] text-white text-[11px] font-semibold px-2.5 py-1 rounded uppercase tracking-wide">{prop.operacion}</span>
             <span className="text-[13px] text-[#555] capitalize">{prop.tipo}</span>
+            {prop.destacada && (
+              <span className="bg-[#FDF3EF] text-[#D85A30] text-[11px] font-semibold px-2.5 py-1 rounded">★ Destacada</span>
+            )}
           </div>
           <h1 className="font-display font-black text-[40px] md:text-[52px] uppercase leading-[0.95] tracking-tight mb-3">
             {prop.titulo}
@@ -94,6 +86,13 @@ export default async function PropiedadPage({ params }: Props) {
                 <div className="text-[11px] text-[#555] uppercase tracking-wide">m² cubiertos</div>
               </div>
             )}
+            {prop.cochera && (
+              <div className="text-center">
+                <Car size={20} className="mx-auto mb-1 text-[#D85A30]" />
+                <div className="font-display font-bold text-[24px]">{prop.cocheras_cantidad || 1}</div>
+                <div className="text-[11px] text-[#555] uppercase tracking-wide">Cochera{(prop.cocheras_cantidad || 1) > 1 ? 's' : ''}</div>
+              </div>
+            )}
           </div>
 
           {/* Descripción */}
@@ -116,10 +115,37 @@ export default async function PropiedadPage({ params }: Props) {
             </div>
           )}
 
+          {/* Plano y recorrido virtual */}
+          <PlanoYTour planoUrl={prop.plano_url} recorridoVirtual={prop.recorrido_virtual} />
+
+          {/* Video */}
+          {prop.video_url && (
+            <div className="mb-10">
+              <h2 className="font-display font-bold text-[22px] uppercase mb-4">Video</h2>
+              <div className="aspect-video rounded-xl overflow-hidden bg-[#111]">
+                <iframe
+                  src={prop.video_url.replace('watch?v=', 'embed/')}
+                  className="w-full h-full"
+                  allowFullScreen
+                  title="Video de la propiedad"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Mapa */}
+          <MapaPropiedad
+            lat={prop.lat}
+            lng={prop.lng}
+            barrio={prop.barrio}
+            direccion={prop.direccion}
+            direccionPrivada={prop.direccion_privada}
+          />
+
           {/* WhatsApp flotante mobile */}
-          <a href={`https://wa.me/5491112345678?text=Hola! Me interesa esta propiedad: ${prop.titulo}`}
+          <a href={`https://wa.me/5491112345678?text=${waMsg}`}
             target="_blank"
-            className="md:hidden fixed bottom-4 right-4 bg-[#25D366] text-white font-semibold px-5 py-3 rounded-full shadow-xl flex items-center gap-2 z-50">
+            className="md:hidden fixed bottom-4 right-4 bg-[#25D366] text-white font-semibold px-5 py-3 rounded-full shadow-xl flex items-center gap-2 z-40">
             <Phone size={16} /> WhatsApp
           </a>
         </div>
@@ -131,7 +157,7 @@ export default async function PropiedadPage({ params }: Props) {
             <p className="text-[13px] text-[#555] mb-5">Completá el formulario y un asesor te responde en el día.</p>
             <LeadForm propiedadId={prop.id} propiedadTitulo={prop.titulo} />
             <div className="mt-4 pt-4 border-t border-[#E2E0DC]">
-              <a href={`https://wa.me/5491112345678?text=Hola! Me interesa: ${prop.titulo}`}
+              <a href={`https://wa.me/5491112345678?text=${waMsg}`}
                 target="_blank"
                 className="w-full bg-[#25D366] hover:bg-[#1fb558] text-white font-semibold text-[14px] py-3 rounded-md flex items-center justify-center gap-2 transition-colors">
                 <Phone size={16} /> Consultar por WhatsApp
