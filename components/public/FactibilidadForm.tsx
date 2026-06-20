@@ -1,12 +1,13 @@
 'use client'
 import { useState } from 'react'
-import { Loader2, CheckCircle, ArrowRight, TrendingUp, Ruler, Building, DollarSign } from 'lucide-react'
-import { ZONAS_AGRUPADAS, BARRIOS_CABA } from '@/lib/barrios'
+import { Loader2, CheckCircle, ArrowRight, TrendingUp, Layers, Building, DollarSign } from 'lucide-react'
+import { BARRIOS_CABA } from '@/lib/barrios'
 
 interface Resultado {
-  zona: { nombre: string; fot: number; alturaMaxima: number; descripcion: string }
-  m2Construibles: number
-  alturaEstimadaPisos: number
+  unidad: { codigo: string; nombre: string; alturaMaxima: number; pisos: string; descripcion: string }
+  m2CubiertosTotal: number
+  m2VendibleEstimado: number
+  pisosNumero: number
   valorTerrenoEstimadoUsd: number
 }
 
@@ -21,7 +22,6 @@ export default function FactibilidadForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStep('loading'); setError('')
-    // Simular el "análisis" con un pequeño delay para que se sienta real
     await new Promise(r => setTimeout(r, 1800))
     try {
       const res = await fetch('/api/factibilidad', {
@@ -41,11 +41,9 @@ export default function FactibilidadForm() {
   if (step === 'loading') {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="relative w-16 h-16 mb-6">
-          <Loader2 size={64} className="animate-spin text-[#D85A30]" />
-        </div>
+        <Loader2 size={64} className="animate-spin text-[#D85A30] mb-6" />
         <h3 className="font-display font-bold text-[20px] uppercase mb-2">Analizando tu terreno...</h3>
-        <p className="text-[14px] text-[#888]">Consultando zonificación y normativa urbana</p>
+        <p className="text-[14px] text-[#888]">Consultando unidad de edificabilidad y normativa urbana</p>
       </div>
     )
   }
@@ -66,13 +64,13 @@ export default function FactibilidadForm() {
         <div className="grid grid-cols-2 gap-3 mb-5">
           <div className="bg-[#F5F4F2] rounded-xl p-4">
             <Building size={16} className="text-[#D85A30] mb-2" />
-            <div className="font-display font-black text-[26px] leading-none">{resultado.m2Construibles.toLocaleString()}</div>
-            <div className="text-[11px] text-[#888] mt-1">m² construibles est.</div>
+            <div className="font-display font-black text-[26px] leading-none">{resultado.m2VendibleEstimado.toLocaleString()}</div>
+            <div className="text-[11px] text-[#888] mt-1">m² vendibles est.</div>
           </div>
           <div className="bg-[#F5F4F2] rounded-xl p-4">
-            <Ruler size={16} className="text-[#D85A30] mb-2" />
-            <div className="font-display font-black text-[26px] leading-none">{resultado.alturaEstimadaPisos}</div>
-            <div className="text-[11px] text-[#888] mt-1">pisos aprox. permitidos</div>
+            <Layers size={16} className="text-[#D85A30] mb-2" />
+            <div className="font-display font-black text-[26px] leading-none">{resultado.pisosNumero}</div>
+            <div className="text-[11px] text-[#888] mt-1">niveles permitidos</div>
           </div>
           <div className="bg-[#F5F4F2] rounded-xl p-4 col-span-2">
             <DollarSign size={16} className="text-[#D85A30] mb-2" />
@@ -84,12 +82,15 @@ export default function FactibilidadForm() {
         </div>
 
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-5">
-          <div className="text-[12px] font-semibold text-blue-700 mb-1">📋 Zonificación: {resultado.zona.nombre}</div>
-          <p className="text-[12px] text-blue-600 leading-relaxed">{resultado.zona.descripcion}</p>
+          <div className="text-[12px] font-semibold text-blue-700 mb-1">
+            📋 {resultado.unidad.nombre} — Altura máx. {resultado.unidad.alturaMaxima}m
+          </div>
+          <p className="text-[12px] text-blue-600 leading-relaxed mb-1">{resultado.unidad.descripcion}</p>
+          <p className="text-[11px] text-blue-500">Morfología: {resultado.unidad.pisos}</p>
         </div>
 
         <p className="text-[11px] text-[#aaa] leading-relaxed mb-5">
-          * Este es un análisis estimado basado en zonificación de referencia del Código Urbanístico de CABA. No reemplaza un informe de factibilidad profesional ni la consulta oficial ante el GCBA. Un asesor de G&P se va a comunicar para validar los datos exactos de tu parcela.
+          * Estimación orientativa según el Código Urbanístico de CABA (Ley 6.099, Título 6). No reemplaza un informe de prefactibilidad profesional sobre la parcela específica ni la consulta oficial ante el GCBA. Un asesor de G&P se va a comunicar para confirmar los datos exactos de tu terreno.
         </p>
 
         <a href={`https://wa.me/5491112345678?text=${encodeURIComponent(`Hola! Pedí un análisis de factibilidad para mi terreno en ${form.direccion}, ${form.barrio}. Quiero coordinar para avanzar.`)}`}

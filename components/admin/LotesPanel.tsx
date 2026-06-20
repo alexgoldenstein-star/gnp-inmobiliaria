@@ -15,7 +15,8 @@ const ESTADOS = ['pendiente','calculado','contactado','en_negociacion','cerrado'
 interface Solicitud {
   id: string; nombre: string; telefono: string; email?: string
   direccion: string; barrio?: string; superficie_m2: number
-  zonificacion?: string; m2_construibles?: number
+  unidad_edificabilidad_nombre?: string; altura_maxima_m?: number
+  pisos_estimados?: number; m2_vendible_estimado?: number
   valor_terreno_estimado_usd?: number; estado: string
   creada_en: string
 }
@@ -84,18 +85,22 @@ export default function LotesPanel({ solicitudes: init }: { solicitudes: Solicit
               </select>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 p-3 bg-[#F5F4F2] rounded-lg">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-3 p-3 bg-[#F5F4F2] rounded-lg">
               <div>
                 <div className="text-[10px] text-[#888] uppercase">Superficie</div>
                 <div className="text-[14px] font-semibold">{s.superficie_m2} m²</div>
               </div>
               <div>
-                <div className="text-[10px] text-[#888] uppercase">Zonificación</div>
-                <div className="text-[12px] font-medium truncate">{s.zonificacion ?? '—'}</div>
+                <div className="text-[10px] text-[#888] uppercase">Unidad edificab.</div>
+                <div className="text-[12px] font-medium truncate">{s.unidad_edificabilidad_nombre ?? '—'}</div>
               </div>
               <div>
-                <div className="text-[10px] text-[#888] uppercase">M² construibles</div>
-                <div className="text-[14px] font-semibold">{s.m2_construibles ?? '—'}</div>
+                <div className="text-[10px] text-[#888] uppercase">Altura máx.</div>
+                <div className="text-[14px] font-semibold">{s.altura_maxima_m ? `${s.altura_maxima_m} m` : '—'}</div>
+              </div>
+              <div>
+                <div className="text-[10px] text-[#888] uppercase">M² vendibles est.</div>
+                <div className="text-[14px] font-semibold">{s.m2_vendible_estimado ?? '—'}</div>
               </div>
               <div>
                 <div className="text-[10px] text-[#888] uppercase">Valor estimado</div>
