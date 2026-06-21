@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabase'
 import PropertyCard from '@/components/public/PropertyCard'
 import FactibilidadForm from '@/components/public/FactibilidadForm'
 import Link from 'next/link'
-import { ArrowRight, MapPin, Ruler, FileText, Phone, Zap, Users, Clock, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Ruler, Phone, Zap, Users, Network, ShieldCheck } from 'lucide-react'
 import type { Propiedad } from '@/types'
 
 async function getLotes() {
@@ -16,24 +16,12 @@ async function getLotes() {
   } catch { return [] }
 }
 
-async function getStats() {
-  try {
-    const db = getSupabaseAdmin()
-    const { count: analisis } = await db.from('factibilidad_solicitudes').select('*', { count: 'exact', head: true })
-    const { count: desarrolladores } = await db.from('inmobiliarias').select('*', { count: 'exact', head: true }).eq('tipo', 'socia').eq('activa', true)
-    return {
-      analisis: (analisis ?? 0) + 12, // base + reales, para que arranque con presencia
-      desarrolladores: (desarrolladores ?? 0) + 8,
-    }
-  } catch { return { analisis: 12, desarrolladores: 8 } }
-}
-
 export default async function LotesPage() {
-  const [lotes, stats] = await Promise.all([getLotes(), getStats()])
+  const lotes = await getLotes()
 
   return (
     <div className="min-h-screen">
-      {/* HERO — estilo Terres: foco en "vendé tu terreno sin vueltas" */}
+      {/* HERO */}
       <div className="bg-[#111] text-white px-6 md:px-16 py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,.1) 40px, rgba(255,255,255,.1) 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,.1) 40px, rgba(255,255,255,.1) 41px)' }} />
         <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -47,30 +35,22 @@ export default async function LotesPage() {
               <span className="text-[#D85A30]">SIN VUELTAS</span>
             </h1>
             <p className="text-[16px] font-light leading-relaxed text-white/60 max-w-md mb-8">
-              Pedí un análisis de factibilidad gratuito. En minutos sabés cuánto se puede construir en tu terreno y conectamos con desarrolladores que buscan exactamente eso.
+              Pedí un análisis de factibilidad gratuito. Conocé el potencial constructivo de tu terreno y conectamos con desarrolladores que buscan exactamente eso.
             </p>
 
-            {/* Stats reales */}
-            <div className="flex gap-8">
-              <div>
-                <div className="font-display font-black text-[36px] leading-none">+{stats.analisis}</div>
-                <div className="text-[12px] text-white/50 mt-1">Análisis entregados</div>
-              </div>
-              <div>
-                <div className="font-display font-black text-[36px] leading-none">+{stats.desarrolladores}</div>
-                <div className="text-[12px] text-white/50 mt-1">Desarrolladores en la red</div>
-              </div>
-              <div>
-                <div className="font-display font-black text-[36px] leading-none">24h</div>
-                <div className="text-[12px] text-white/50 mt-1">Tiempo de respuesta</div>
-              </div>
+            {/* Mensaje de experiencia/red, sin números inventados */}
+            <div className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-xl p-5">
+              <Network size={22} className="text-[#D85A30] shrink-0 mt-0.5" />
+              <p className="text-[13px] text-white/70 leading-relaxed">
+                Contamos con experiencia en el mercado de CABA y una amplia red de contactos con desarrolladores que buscan activamente nuevas oportunidades de terrenos.
+              </p>
             </div>
           </div>
 
-          {/* Form de factibilidad — el corazón del módulo */}
+          {/* Form de factibilidad */}
           <div className="bg-white rounded-2xl p-7 shadow-2xl">
             <div className="text-center mb-5">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[#D85A30] mb-1">100% gratis · Sin compromiso</div>
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#D85A30] mb-1">Gratis · Sin compromiso</div>
               <h2 className="font-display font-black text-[24px] uppercase text-[#111]">Análisis de factibilidad</h2>
               <p className="text-[13px] text-[#888] mt-1">Conocé el potencial constructivo de tu terreno</p>
             </div>
@@ -79,7 +59,7 @@ export default async function LotesPage() {
         </div>
       </div>
 
-      {/* Cómo funciona — 4 pasos estilo Terres */}
+      {/* Beneficios */}
       <section className="bg-[#F5F4F2] px-6 md:px-12 py-16">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
@@ -89,10 +69,10 @@ export default async function LotesPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
             {[
-              [Zap, 'Factibilidad gratis', 'Pedí sin costo un análisis con metros construibles y zonificación de tu lote.'],
+              [Zap, 'Factibilidad gratis', 'Pedí sin costo un análisis con metros construibles y unidad de edificabilidad de tu lote.'],
               [Ruler, 'Mejor precio', 'Te ayudamos a definir el valor real de tu terreno según mercado y demanda actual.'],
               [Users, 'Llega a desarrolladores', 'Tu terreno se muestra a la red de desarrolladores que buscan exactamente eso.'],
-              [Clock, 'Respuesta en 24hs', 'Desde el análisis hasta la primera oferta, seguís cada paso con claridad.'],
+              [ShieldCheck, 'Acompañamiento real', 'Seguimiento personalizado desde el análisis hasta la negociación con el comprador.'],
             ].map(([Icon, titulo, desc]: any) => (
               <div key={titulo} className="bg-white rounded-xl p-6 border border-[#E2E0DC]">
                 <div className="w-10 h-10 bg-[#FDF3EF] rounded-lg flex items-center justify-center mb-4">

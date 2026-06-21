@@ -120,3 +120,34 @@ export function calcularFactibilidad(
     valorTerrenoEstimadoUsd,
   }
 }
+
+// ============================================================
+// CÁLCULO PARA MÚLTIPLES TERRENOS (unificación de parcelas)
+// ============================================================
+// Cuando un desarrollador unifica varios lotes colindantes, la superficie
+// total aumenta y generalmente mejora el frente sobre la calle, lo que
+// puede habilitar una mejor banda edificable. El barrio/unidad se toma
+// del primer terreno (se asume que son colindantes en la misma zona).
+
+export interface TerrenoInput {
+  superficieM2: number
+  frenteM?: number
+  barrio: string
+}
+
+export function calcularFactibilidadConjunta(terrenos: TerrenoInput[]): ResultadoFactibilidad & { cantidadTerrenos: number; superficieIndividual: number[] } {
+  if (terrenos.length === 0) throw new Error('Se requiere al menos un terreno')
+
+  const superficieTotal = terrenos.reduce((sum, t) => sum + t.superficieM2, 0)
+  // El frente combinado es la suma de los frentes individuales (lotes colindantes en la misma calle)
+  const frenteTotal = terrenos.reduce((sum, t) => sum + (t.frenteM ?? Math.sqrt(t.superficieM2 / 3)), 0)
+  const barrioPrincipal = terrenos[0].barrio
+
+  const resultado = calcularFactibilidad(superficieTotal, barrioPrincipal, frenteTotal)
+
+  return {
+    ...resultado,
+    cantidadTerrenos: terrenos.length,
+    superficieIndividual: terrenos.map(t => t.superficieM2),
+  }
+}

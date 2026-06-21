@@ -18,6 +18,7 @@ interface Solicitud {
   unidad_edificabilidad_nombre?: string; altura_maxima_m?: number
   pisos_estimados?: number; m2_vendible_estimado?: number
   valor_terreno_estimado_usd?: number; estado: string
+  cantidad_terrenos?: number
   creada_en: string
 }
 
@@ -74,7 +75,14 @@ export default function LotesPanel({ solicitudes: init }: { solicitudes: Solicit
           <div key={s.id} className="bg-white rounded-xl border border-[#E2E0DC] p-5">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <div className="font-semibold text-[15px]">{s.nombre}</div>
+                <div className="font-semibold text-[15px] flex items-center gap-2">
+                  {s.nombre}
+                  {(s.cantidad_terrenos ?? 1) > 1 && (
+                    <span className="text-[10px] font-bold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
+                      {s.cantidad_terrenos} terrenos unificados
+                    </span>
+                  )}
+                </div>
                 <div className="text-[12px] text-[#888] flex items-center gap-1 mt-0.5">
                   <MapPin size={11}/> {s.direccion}, {s.barrio}
                 </div>

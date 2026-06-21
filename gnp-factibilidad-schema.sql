@@ -61,3 +61,10 @@ ON CONFLICT (clave) DO NOTHING;
 --
 -- La unidad aplicable a cada parcela se confirma en:
 -- mapa.buenosaires.gob.ar → "Información para tu proyecto" (plancheta catastral)
+
+-- ============================================================
+-- SOPORTE PARA UNIFICACIÓN DE TERRENOS (múltiples parcelas)
+-- ============================================================
+ALTER TABLE factibilidad_solicitudes
+  ADD COLUMN IF NOT EXISTS cantidad_terrenos INTEGER DEFAULT 1,
+  ADD COLUMN IF NOT EXISTS terrenos_detalle JSONB; -- array de {direccion, superficie_m2, frente_m}
