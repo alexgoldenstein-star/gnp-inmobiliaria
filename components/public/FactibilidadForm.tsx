@@ -1,4 +1,5 @@
 'use client'
+import { trackFactibilidad } from '@/lib/tracking'
 import { useState } from 'react'
 import { Loader2, CheckCircle, ArrowRight, TrendingUp, Layers, Building, DollarSign, Plus, X } from 'lucide-react'
 import { BARRIOS_CABA } from '@/lib/barrios'
@@ -56,6 +57,7 @@ export default function FactibilidadForm() {
       if (!res.ok) { setError(data.error); setStep('form'); return }
       setResultado(data.resultado)
       setStep('resultado')
+      trackFactibilidad({ barrio: datos.barrio, cantidad_terrenos: terrenos.length })
     } catch {
       setError('Error al calcular. Intentá de nuevo.')
       setStep('form')

@@ -1,4 +1,5 @@
 'use client'
+import { trackLead } from '@/lib/tracking'
 import { useState } from 'react'
 import { Send, Loader2, CheckCircle } from 'lucide-react'
 

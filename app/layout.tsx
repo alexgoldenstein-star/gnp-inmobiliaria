@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import TrackingScripts from '@/components/analytics/TrackingScripts'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
 import { Inter, Barlow_Condensed } from 'next/font/google'
 import './globals.css'
 
