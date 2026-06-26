@@ -8,6 +8,7 @@ declare global {
   }
 }
 
+const GA_ID_LIB = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? 'G-P308JQ83QH'
 const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? 'AW-18275184545'
 
 function gtag(...args: any[]) {
