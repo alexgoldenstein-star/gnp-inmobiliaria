@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Menu, X, LogIn, Building2, User, Home, LogOut } from 'lucide-react'
 
@@ -30,10 +31,8 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-[68px] bg-white/96 border-b border-[#E2E0DC] backdrop-blur-md flex items-center justify-between px-4 md:px-10">
-      <Link href="/" className="flex items-center gap-2.5 no-underline shrink-0">
-        <div className="w-9 h-9 bg-[#D85A30] rounded-md flex items-center justify-center font-display font-black text-base text-white tracking-tight">
-          G&P
-        </div>
+      <Link href="/" className="flex items-center gap-2 no-underline shrink-0">
+        <Image src="/logo-gyp.png" alt="G&P Negocios Inmobiliarios" width={44} height={44} className="rounded-md" priority />
         <span className="font-display font-bold text-[16px] uppercase tracking-wide text-[#111] hidden sm:block">
           Negocios Inmobiliarios
         </span>
