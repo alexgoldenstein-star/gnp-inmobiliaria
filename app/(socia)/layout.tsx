@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Building2, Plus, BarChart3, LogOut } from 'lucide-react'
 
 export default async function SociaLayout({ children }: { children: React.ReactNode }) {
@@ -12,9 +13,7 @@ export default async function SociaLayout({ children }: { children: React.ReactN
     <div className="flex h-screen bg-[#F5F4F2] overflow-hidden">
       <aside className="w-[200px] bg-[#111] text-white flex flex-col shrink-0">
         <div className="px-5 h-[68px] border-b border-white/10 flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-[#D85A30] rounded flex items-center justify-center">
-            <Building2 size={14} className="text-white"/>
-          </div>
+          <Image src="/logo-gyp.png" alt="G&P" width={32} height={32} className="rounded" />
           <div>
             <div className="font-display font-bold text-[13px] uppercase tracking-wide leading-none">Mi panel</div>
             <div className="text-white/40 text-[10px] mt-0.5 truncate">{session.nombre}</div>

@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { BarChart3, Building2, Users, Plus, Settings, Home, LogOut, UserCog, Store, Layout, Sparkles, Network, Trees } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -45,7 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-[220px] bg-[#111] text-white flex flex-col shrink-0">
         {/* Logo */}
         <div className="flex items-center gap-2.5 px-5 h-[68px] border-b border-white/10">
-          <div className="w-8 h-8 bg-[#D85A30] rounded flex items-center justify-center font-display font-black text-sm">G&P</div>
+          <Image src="/logo-gyp.png" alt="G&P" width={32} height={32} className="rounded" />
           <div>
             <div className="font-display font-bold text-[14px] uppercase tracking-wide leading-none">Admin</div>
             <div className="text-white/40 text-[11px] mt-0.5">Panel de control</div>

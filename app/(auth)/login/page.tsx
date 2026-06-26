@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle, User, Building2, Home, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const ROLES_INFO = {
   admin:    { icon: Home,      label: 'Equipo G&P',         color: 'text-blue-600',   bg: 'bg-blue-50',   desc: 'Panel de administración' },
@@ -172,7 +173,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-11 h-11 bg-[#D85A30] rounded-lg flex items-center justify-center font-display font-black text-lg text-white">G&P</div>
+          <Image src="/logo-gyp.png" alt="G&P Negocios Inmobiliarios" width={56} height={56} className="rounded-lg" />
           <div>
             <div className="font-display font-bold text-xl uppercase tracking-wide text-white leading-none">Negocios</div>
             <div className="font-display font-bold text-xl uppercase tracking-wide text-white/50 leading-none">Inmobiliarios</div>

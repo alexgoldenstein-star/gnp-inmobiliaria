@@ -1,4 +1,5 @@
 import Navbar from '@/components/public/Navbar'
+import Image from 'next/image'
 import WAButton from '@/components/public/WAButton'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 bg-[#D85A30] rounded-md flex items-center justify-center font-display font-black text-base text-white">G&P</div>
+              <Image src="/logo-gyp.png" alt="G&P Negocios Inmobiliarios" width={36} height={36} className="rounded-md" />
               <span className="font-display font-bold text-base uppercase tracking-wide">Negocios Inmobiliarios</span>
             </div>
             <p className="text-[13px] text-white/40 leading-relaxed max-w-[260px]">
