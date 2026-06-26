@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
+const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? 'AW-18275184545'
 
 function gtag(...args: any[]) {
   if (typeof window !== 'undefined' && window.gtag) window.gtag(...args)

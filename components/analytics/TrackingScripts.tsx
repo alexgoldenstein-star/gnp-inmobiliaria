@@ -1,30 +1,27 @@
 import Script from 'next/script'
 
-const GA_ID  = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-const ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
+// Google Ads ID hardcodeado — G&P Negocios Inmobiliarios
+const ADS_ID_DEFAULT = 'AW-18275184545'
+
+const GA_ID   = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+const ADS_ID  = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? ADS_ID_DEFAULT
 const META_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
 
-// Google Tag unifica GA4 + Google Ads en un solo snippet
-const GTAG_ID = ADS_ID ?? GA_ID
-
 export default function TrackingScripts() {
-  if (!GA_ID && !ADS_ID && !META_ID) return null
-
   return (
     <>
-      {/* ── Google Tag (Analytics 4 + Google Ads) ── */}
-      {GTAG_ID && (
-        <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`} strategy="afterInteractive" />
-          <Script id="gtag-init" strategy="afterInteractive">{`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            ${GA_ID ? `gtag('config', '${GA_ID}', { page_path: window.location.pathname });` : ''}
-            ${ADS_ID ? `gtag('config', '${ADS_ID}');` : ''}
-          `}</Script>
-        </>
-      )}
+      {/* ── Google Tag (Google Ads AW-18275184545 + Analytics 4 si está configurado) ── */}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="gtag-init" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${ADS_ID}');
+        ${GA_ID ? `gtag('config', '${GA_ID}', { page_path: window.location.pathname });` : ''}
+      `}</Script>
 
       {/* ── Meta Pixel ── */}
       {META_ID && (
